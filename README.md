@@ -1,1 +1,1 @@
-# Gacha-BL
+# python enterpreter with kivy needed to run
