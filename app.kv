@@ -1,0 +1,195 @@
+#: import Factory kivy.factory.Factory
+#:import utils kivy.utils
+
+<MyPopup@Popup>
+    title: "new popup"
+    size_hint: 0.5,0.3
+    pos_hint: {'x': 0.3, 'top':0.9}
+    BoxLayout:
+        orientation:"horizontal"
+        spacing: '10dp'
+        padding: 50
+        Label:
+            text:'popup text'
+        Button:
+            text: "close"
+            size_hint: .5,.5
+            on_release: root.dismiss()
+
+<Main>
+    BoxLayout:
+        orientation:"horizontal"
+        BoxLayout:
+            orientation:"vertical"
+            size_hint: .2,1
+            Label:
+                id: coins
+                text:'player info'
+                font_size: 12
+                color: "#d9a60f"
+
+            Button:
+                text: "lootbox"
+                on_release: app.root.ids.sm.current = "lootbox"
+            Button:
+                text: "name guesser"
+                on_release: app.root.ids.sm.current = "nfp"
+            Button:
+                text: "type guesser"
+                on_release: app.root.ids.sm.current = "gfn"
+            Button:
+                text: "read descriptions"
+                on_release: app.root.ids.sm.current = "rd"
+        WindowManager:
+            id: sm
+            RollGacha:
+            NamefromPicture:
+            GestureFromName:
+            ReadDescription:
+
+
+<NamefromPicture>
+    name: "nfp"
+    on_pre_enter: root.starUp()
+    BoxLayout:
+        orientation:"vertical"
+        size: root.width, root.height
+        spacing: '10dp'
+        padding: 10
+
+        Image:
+            background:
+            id: behavImg
+            anim_delay: 0.10
+            anim_loop: 100
+        BoxLayout:
+            size_hint: 1,.15
+            Label:
+                text:'Fuck me'
+                id: behavName
+            Button:
+                id: right
+                text: "next"
+                size_hint: .2,1
+                #on_release: Factory.MyPopup().open()
+                on_release: root.PickAction(1)
+            Button:
+                id: wrong
+                text: "next"
+                size_hint: .2,1
+                on_release: root.PickAction(0)
+<GestureFromName>
+    name: "gfn"
+    on_pre_enter: root.nextSign()
+    BoxLayout:
+        orientation:"vertical"
+        size: root.width, root.height
+        spacing: '10dp'
+        padding: 10
+        Label:
+            text:'Acc: Arms Crossed'
+            size_hint: 1,.1
+            font_size: 18
+            id: behavName
+        Image:
+            id: behavImg
+            source: 'imgs/Bc2.gif'
+            anim_delay: 0.10
+            anim_loop: 100
+        GridLayout:
+            cols: 2
+            size_hint: .5,.2
+            pos_hint: {"right":0.7}
+            Button:
+                text: "open"
+                id: open
+                on_release: root.buttonPress(0)
+                background_color: "#909399"
+            Button:
+                text: "closed"
+                id: closed
+                on_release: root.buttonPress(1)
+                background_color: "#909399"
+            Button:
+                text: "unsure"
+                id: unsure
+                on_release: root.buttonPress(2)
+                background_color: "#909399"
+            Button:
+                text: "aggression"
+                id: aggr
+                on_release: root.buttonPress(3)
+                background_color: "#909399"
+
+<ReadDescription>
+    name: "rd"
+    on_pre_enter: root.nextSign()
+    BoxLayout:
+        orientation:"vertical"
+        size: root.width, root.height
+        spacing: '10dp'
+        padding: 10
+        BoxLayout:
+            orientation:"horizontal"
+            size: root.width, root.height
+            Image:
+                id: behavImg
+                source: 'imgs/Acc.gif'
+                anim_delay: 0.10
+                anim_loop: 100
+            ScrollView:
+                Label:
+                    size_hint_y: None
+                    text_size: self.width, None
+                    height: self.texture_size[1]
+                    font_size: 16
+                    id: behaveDesc
+
+        Button:
+            id: next
+            text: "next"
+            size_hint: 1,.1
+            on_release: root.buttonPress()
+
+
+
+
+<RollGacha>
+    name: "lootbox"
+
+    BoxLayout:
+        orientation:"vertical"
+        size: root.width, root.height
+        spacing: '10dp'
+        padding: 10
+        Label:
+            id: statsRoll
+            text:'Press Roll'
+            color: "#FF00FF"
+            size_hint: 1,.02
+
+        AsyncImage:
+            id: rollGacha
+            source: 'imgs/noImg.png'
+            anim_delay: 0.10
+            anim_loop: 100
+            canvas.before:
+                Color:
+                    id: rarityColor
+                    rgb: 0,0,0
+                Rectangle:
+                    pos: self.x - 1, self.y - 1
+                    size: self.width + 2, self.height + 2
+        BoxLayout:
+            orientation:"horizontal"
+            size_hint: 1,.02
+            Button:
+                id: roll
+                text: "roll"
+                on_release: root.roll()
+            Button:
+                id: reroll
+                text: "roll for waifus"
+
+
+    
